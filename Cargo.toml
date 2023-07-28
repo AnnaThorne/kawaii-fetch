@@ -1,0 +1,16 @@
+[package]
+name = "kawaii-fetch"
+version = "0.1.0"
+authors = ["annie <at.anna.thorne@gmail.com>"]
+edition = "2021"
+description = "Yet another meme fetch tool but written in Rust."
+readme = "README.md"
+repository = "https://github.com/AnnaThorne/kawaii-fetch"
+license = "WTFPL"
+keywords = ["meme", "fetch", "kawaii", "cute", "anime", "tool", "cli"]
+publish = true
+
+[dependencies]
+whoami = "^1.4.1"
+sysinfo = "^0.29.7"
+struct_iterable = "^0.1.1"
