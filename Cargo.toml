@@ -13,4 +13,3 @@ publish = true
 [dependencies]
 whoami = "^1.4.1"
 sysinfo = "^0.29.7"
-struct_iterable = "^0.1.1"
