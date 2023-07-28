@@ -28,9 +28,9 @@ fn get_system_info () -> HashMap<String, String> {
     return kawaii_info;
 }
 
-fn print_kawaii_info() -> () {
+fn print_kawaii_info() {
     let kawaii_info: HashMap<String, String> = get_system_info();
-    
+
     for (kawaii_key, kawaii_value) in kawaii_info {
         println!("{}{:#?}", kawaii_key, kawaii_value);
     }
@@ -38,7 +38,7 @@ fn print_kawaii_info() -> () {
 }
 
 // print out cute ascii (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
-fn print_kawaii_ascii () -> (){
+fn print_kawaii_ascii () {
     for (kawaii_line, line) in KAWAII_ASCII.iter().enumerate() {
         println!("{}{}", kawaii_line, line);
     }
