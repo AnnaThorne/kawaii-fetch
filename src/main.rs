@@ -30,17 +30,24 @@ fn get_system_info () -> HashMap<String, String> {
 
 fn print_kawaii_info() {
     let kawaii_info: HashMap<String, String> = get_system_info();
-
-    for (kawaii_key, kawaii_value) in kawaii_info {
-        println!("{}{:#?}", kawaii_key, kawaii_value);
-    }
-
+    // os
+    println!("{}{:#?}", "nameu: ", kawaii_info.get("nameu").unwrap());
+    println!("{}{:#?}", "os_vewsiown: ", kawaii_info.get("os_vewsiown").unwrap());
+    println!("{}{:#?}", "howst_name: ", kawaii_info.get("howst_name").unwrap());
+    println!("{}{:#?}", "kewnel_vewsion: ", kawaii_info.get("kewnel_vewsion").unwrap());
+    // hadwawe
+    println!("{}{:#?}", "cpuwu: ", kawaii_info.get("cpuwu").unwrap());
+    println!("{}{:#?}", "totaw_memowy: ", kawaii_info.get("totaw_memowy").unwrap());
+    println!("{}{:#?}", "used_memowy: ", kawaii_info.get("used_memowy").unwrap());
+    //for (kawaii_key, kawaii_value) in kawaii_info {
+    //    println!("{}{:#?}", kawaii_key, kawaii_value);
+    //}
 }
 
 // print out cute ascii (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
 fn print_kawaii_ascii () {
-    for (kawaii_line, line) in KAWAII_ASCII.iter().enumerate() {
-        println!("{}{}", kawaii_line, line);
+    for (_line, kawaii_line) in KAWAII_ASCII.iter().enumerate() {
+        println!("{}", kawaii_line);
     }
 }
 
