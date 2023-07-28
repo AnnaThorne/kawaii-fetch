@@ -1,72 +1,46 @@
+use std::collections::HashMap;
 use sysinfo::{System, SystemExt};
-use struct_iterable::Iterable;
 
 fn main() {
     print_kawaii_ascii();
     print_kawaii_info();
 }
 
-fn get_system_info () -> KawaiiInfo {
+fn get_system_info () -> HashMap<String, String> {
     // init structs
     let mut sus = System::new_all();
-    let mut kawaii_info: KawaiiInfo = KawaiiInfo::new();
     sus.refresh_all();
+    let mut kawaii_info: HashMap<String, String> = HashMap::new();
 
     // system infowmation
-    kawaii_info.nameu = sus.name();
-    kawaii_info.os_vewsiown = sus.os_version();
-    kawaii_info.howst_name = sus.host_name();
-    kawaii_info.kewnel_vewsion = sus.kernel_version();
+    kawaii_info.insert("nameu".to_string(), sus.name().unwrap());
+    kawaii_info.insert("os_vewsiown".to_string(), sus.os_version().unwrap());
+    kawaii_info.insert("howst_name".to_string(), sus.host_name().unwrap());
+    kawaii_info.insert("kewnel_vewsion".to_string(), sus.kernel_version().unwrap());
 
     // cpuwu infowmation
-    kawaii_info.cpuwus = sus.cpus().len();
+    kawaii_info.insert("cpuwu".to_string(), sus.cpus().len().to_string());
 
     // memowy section
-    kawaii_info.totaw_memowy = sus.total_memory();
-    kawaii_info.used_memowy = sus.used_memory();
+    kawaii_info.insert("totaw_memowy".to_string(), sus.total_memory().to_string());
+    kawaii_info.insert("used_memowy".to_string(), sus.used_memory().to_string());
 
     return kawaii_info;
 }
 
-fn print_kawaii_info() -> () {
-    let kawaii_info: KawaiiInfo = get_system_info();
-    kawaii_info.iter().for_each(|(key, value)| {
-        println!("{}: {:#?}", key, value.downcast_ref::<String>());
-    });
+fn print_kawaii_info() {
+    let kawaii_info: HashMap<String, String> = get_system_info();
+
+    for (kawaii_key, kawaii_value) in kawaii_info {
+        println!("{}{:#?}", kawaii_key, kawaii_value);
+    }
 
 }
 
 // print out cute ascii (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
-fn print_kawaii_ascii () -> (){
+fn print_kawaii_ascii () {
     for (kawaii_line, line) in KAWAII_ASCII.iter().enumerate() {
         println!("{}{}", kawaii_line, line);
-    }
-}
-
-// KawaiiInfo struct to store system infowmation
-#[derive(Iterable)]
-struct KawaiiInfo {
-    nameu: Option<String>,
-    os_vewsiown: Option<String>,
-    howst_name: Option<String>,
-    kewnel_vewsion: Option<String>,
-    cpuwus: usize,
-    totaw_memowy: u64,
-    used_memowy: u64,
-}
-
-// implementation of KawaiiInfo
-impl KawaiiInfo {
-    fn new() -> KawaiiInfo {
-        KawaiiInfo {
-            nameu: Some(String::new()),
-            os_vewsiown: Some(String::new()),
-            howst_name: Some(String::new()),
-            kewnel_vewsion: Some(String::new()),
-            cpuwus: 0,
-            totaw_memowy: 0,
-            used_memowy: 0,
-        }
     }
 }
 
