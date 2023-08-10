@@ -16,3 +16,4 @@ sysinfo = "^0.29.7"
 toml = "0.7.6"
 directories = "5.0.1"
 serde = { version = "1.0.180", features = ["derive"] }
+unicode-width = "0.1.10"

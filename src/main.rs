@@ -1,5 +1,6 @@
-use std::collections::HashMap;
+use std::{cmp, collections::HashMap};
 use sysinfo::{System, SystemExt};
+use unicode_width::UnicodeWidthStr;
 
 mod config;
 use config::Config;
@@ -7,7 +8,6 @@ use config::Config;
 fn main() {
     let config: Config = Config::new();
 
-    print_kawaii_ascii();
     print_kawaii_info(config.widgets, config.separator);
 }
 
@@ -51,17 +51,31 @@ fn get_system_info() -> HashMap<String, String> {
 fn print_kawaii_info(widgets: Vec<String>, separator: String) {
     let kawaii_info: HashMap<String, String> = get_system_info();
 
-    for widget in widgets {
-        if kawaii_info.contains_key(&widget) {
-            println!("{}: {}", widget, kawaii_info.get(&widget).unwrap());
-        }
-    }
-}
+    let ascii_width = KAWAII_ASCII
+        .iter()
+        .map(|l| UnicodeWidthStr::width(*l))
+        .max()
+        .unwrap_or(0);
 
-// print out cute ascii (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
-fn print_kawaii_ascii() {
-    for (_line, kawaii_line) in KAWAII_ASCII.iter().enumerate() {
-        println!("{}", kawaii_line);
+    let widget_pad = widgets.iter().map(|w| w.len()).max().unwrap_or(0);
+
+    let ascii_pad = " ".repeat(ascii_width).to_owned();
+    for i in 0..cmp::max(KAWAII_ASCII.len(), widgets.len()) {
+        let widget = widgets.get(i).unwrap_or(&"".to_string()).to_string();
+
+        println!(
+            "{} {} {} {}",
+            KAWAII_ASCII.get(i).unwrap_or(&ascii_pad.as_str()),
+            widget.to_string() + " ".repeat(widget_pad - widget.len()).as_str(),
+            if widgets.get(i).is_some() {
+                separator.to_owned()
+            } else {
+                " ".repeat(separator.len()).to_string()
+            },
+            kawaii_info
+                .get(widgets.get(i).unwrap_or(&"".to_string()))
+                .unwrap_or(&"".to_string())
+        );
     }
 }
 
