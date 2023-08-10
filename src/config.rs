@@ -10,11 +10,13 @@ struct ConfigToml {
 #[derive(Serialize, Deserialize, Debug)]
 struct ConfigTomlMain {
     widgets: Option<String>,
+    separator: Option<String>,
 }
 
 #[derive(Debug)]
 pub struct Config {
     pub widgets: Vec<String>,
+    pub separator: String,
 }
 
 impl Default for Config {
@@ -29,6 +31,7 @@ impl Default for Config {
                 "totaw_memowy".to_string(),
                 "used_memowy".to_string(),
             ],
+            separator: ">".to_string(),
         }
     }
 }
@@ -78,24 +81,32 @@ impl Config {
             ConfigToml { main: None }
         });
 
-        let widgets: Vec<String> = match config_toml.main {
+        let (widgets, separator): (Vec<String>, String) = match config_toml.main {
             Some(config_main) => {
                 let main_widgets: String = config_main.widgets.unwrap_or_else(|| {
                     println!("No widgets field specified in main.\nUsing defaults");
                     Config::default().widgets.join(" ")
                 });
 
-                main_widgets
-                    .split_whitespace()
-                    .map(|w| w.to_string())
-                    .collect()
+                let separator = config_main.separator.unwrap_or_else(|| {
+                    println!("No separator field specified in main.\nUsing default");
+                    Config::default().separator
+                });
+
+                (
+                    main_widgets
+                        .split_whitespace()
+                        .map(|w| w.to_string())
+                        .collect(),
+                    separator,
+                )
             }
             None => {
                 println!("Missing table main.");
-                Config::default().widgets
+                (Config::default().widgets, Config::default().separator)
             }
         };
 
-        Config { widgets }
+        Config { widgets, separator }
     }
 }

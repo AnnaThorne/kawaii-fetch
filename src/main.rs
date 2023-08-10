@@ -8,7 +8,7 @@ fn main() {
     let config: Config = Config::new();
 
     print_kawaii_ascii();
-    print_kawaii_info(config.widgets);
+    print_kawaii_info(config.widgets, config.separator);
 }
 
 fn get_system_info() -> HashMap<String, String> {
@@ -48,7 +48,7 @@ fn get_system_info() -> HashMap<String, String> {
     kawaii_info
 }
 
-fn print_kawaii_info(widgets: Vec<String>) {
+fn print_kawaii_info(widgets: Vec<String>, separator: String) {
     let kawaii_info: HashMap<String, String> = get_system_info();
 
     for widget in widgets {
