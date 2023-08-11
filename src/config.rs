@@ -11,12 +11,14 @@ struct ConfigToml {
 struct ConfigTomlMain {
     widgets: Option<String>,
     separator: Option<String>,
+    align: Option<String>,
 }
 
 #[derive(Debug)]
 pub struct Config {
     pub widgets: Vec<String>,
     pub separator: String,
+    pub align: String,
 }
 
 impl Default for Config {
@@ -32,6 +34,7 @@ impl Default for Config {
                 "used_memowy".to_string(),
             ],
             separator: ">".to_string(),
+            align: "left".to_string(),
         }
     }
 }
@@ -81,7 +84,7 @@ impl Config {
             ConfigToml { main: None }
         });
 
-        let (widgets, separator): (Vec<String>, String) = match config_toml.main {
+        let (widgets, separator, align): (Vec<String>, String, String) = match config_toml.main {
             Some(config_main) => {
                 let main_widgets: String = config_main.widgets.unwrap_or_else(|| {
                     println!("No widgets field specified in main.\nUsing defaults");
@@ -93,20 +96,34 @@ impl Config {
                     Config::default().separator
                 });
 
+                let align = config_main.align.unwrap_or_else(|| {
+                    println!("No align field specified in main.\nUsing default");
+                    Config::default().align
+                });
+
                 (
                     main_widgets
                         .split_whitespace()
                         .map(|w| w.to_string())
                         .collect(),
                     separator,
+                    align,
                 )
             }
             None => {
                 println!("Missing table main.");
-                (Config::default().widgets, Config::default().separator)
+                (
+                    Config::default().widgets,
+                    Config::default().separator,
+                    Config::default().align,
+                )
             }
         };
 
-        Config { widgets, separator }
+        Config {
+            widgets,
+            separator,
+            align,
+        }
     }
 }

@@ -75,10 +75,14 @@ fn print_kawaii_info(config: Config) {
                 longest_ascii_line_length
                     - UnicodeWidthStr::width(*KAWAII_ASCII.get(i).unwrap_or(&ascii_fill.as_str()))
             ),
-            widget.to_string()
-                + " "
-                    .repeat(longest_widget_name_length - widget.len())
-                    .as_str(),
+            if config.align == "left" {
+                widget.to_string()
+                    + " "
+                        .repeat(longest_widget_name_length - widget.len())
+                        .as_str()
+            } else {
+                " ".repeat(longest_widget_name_length - widget.len()) + widget.to_string().as_str()
+            },
             if display_widgets.get(i).is_some() {
                 config.separator.to_owned()
             } else {
