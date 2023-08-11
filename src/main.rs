@@ -8,7 +8,7 @@ use config::Config;
 fn main() {
     let config: Config = Config::new();
 
-    print_kawaii_info(config.widgets, config.separator);
+    print_kawaii_info(config);
 }
 
 fn get_system_info() -> HashMap<String, String> {
@@ -48,10 +48,10 @@ fn get_system_info() -> HashMap<String, String> {
     kawaii_info
 }
 
-fn print_kawaii_info(widgets: Vec<String>, separator: String) {
+fn print_kawaii_info(config: Config) {
     let kawaii_info: HashMap<String, String> = get_system_info();
 
-    let display_widgets = format_widget_names(&widgets);
+    let display_widgets = format_widget_names(&config.widgets);
 
     let longest_ascii_line_length = KAWAII_ASCII
         .iter()
@@ -80,12 +80,12 @@ fn print_kawaii_info(widgets: Vec<String>, separator: String) {
                     .repeat(longest_widget_name_length - widget.len())
                     .as_str(),
             if display_widgets.get(i).is_some() {
-                separator.to_owned()
+                config.separator.to_owned()
             } else {
-                " ".repeat(separator.len()).to_string()
+                " ".repeat(config.separator.len()).to_string()
             },
             kawaii_info
-                .get(widgets.get(i).unwrap_or(&"".to_string()))
+                .get(config.widgets.get(i).unwrap_or(&"".to_string()))
                 .unwrap_or(&"".to_string())
         );
     }
