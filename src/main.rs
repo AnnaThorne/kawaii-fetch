@@ -51,17 +51,22 @@ fn get_system_info() -> HashMap<String, String> {
 fn print_kawaii_info(widgets: Vec<String>, separator: String) {
     let kawaii_info: HashMap<String, String> = get_system_info();
 
+    let display_widgets = format_widget_names(&widgets);
+
     let longest_ascii_line_length = KAWAII_ASCII
         .iter()
         .map(|l| UnicodeWidthStr::width(*l))
         .max()
         .unwrap_or(0);
 
-    let longest_widget_name_length = widgets.iter().map(|w| w.len()).max().unwrap_or(0);
+    let longest_widget_name_length = display_widgets.iter().map(|w| w.len()).max().unwrap_or(0);
     let ascii_fill = " ".repeat(longest_ascii_line_length).to_owned();
 
-    for i in 0..cmp::max(KAWAII_ASCII.len(), widgets.len()) {
-        let widget = widgets.get(i).unwrap_or(&"".to_string()).to_string();
+    for i in 0..cmp::max(KAWAII_ASCII.len(), display_widgets.len()) {
+        let widget = display_widgets
+            .get(i)
+            .unwrap_or(&"".to_string())
+            .to_string();
 
         println!(
             "{} {} {}  {}  {}",
@@ -74,7 +79,7 @@ fn print_kawaii_info(widgets: Vec<String>, separator: String) {
                 + " "
                     .repeat(longest_widget_name_length - widget.len())
                     .as_str(),
-            if widgets.get(i).is_some() {
+            if display_widgets.get(i).is_some() {
                 separator.to_owned()
             } else {
                 " ".repeat(separator.len()).to_string()
@@ -84,6 +89,13 @@ fn print_kawaii_info(widgets: Vec<String>, separator: String) {
                 .unwrap_or(&"".to_string())
         );
     }
+}
+
+fn format_widget_names(widgets: &[String]) -> Vec<String> {
+    widgets
+        .iter()
+        .map(|w| w.replace('_', " "))
+        .collect::<Vec<String>>()
 }
 
 const KAWAII_ASCII: &[&str] = &[
