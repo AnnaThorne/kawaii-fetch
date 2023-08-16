@@ -1,7 +1,10 @@
 [package]
 name = "kawaii-fetch"
 version = "0.1.0"
-authors = ["annie <at.anna.thorne@gmail.com>"]
+authors = [
+	"annie <at.anna.thorne@gmail.com>",
+	"faith <havealittlefaith2096@gmail.com>",
+]
 edition = "2021"
 description = "Yet another meme fetch tool but written in Rust."
 readme = "README.md"
