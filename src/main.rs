@@ -63,6 +63,8 @@ fn print_kawaii_info(config: Config) {
     for i in 0..cmp::max(KAWAII_ASCII.len(), config.widgets.len()) {
         let widget = config.widgets.get(i).unwrap_or(&"".to_string()).to_string();
 
+        let display_name = widget.replace('_', " ");
+
         println!(
             "{} {} {}  {}  {}",
             KAWAII_ASCII.get(i).unwrap_or(&ascii_fill.as_str()),
@@ -71,12 +73,12 @@ fn print_kawaii_info(config: Config) {
                     - UnicodeWidthStr::width(*KAWAII_ASCII.get(i).unwrap_or(&ascii_fill.as_str()))
             ),
             if config.align == "left" {
-                widget.to_string()
+                display_name.to_string()
                     + " "
-                        .repeat(longest_widget_name_length - widget.len())
+                        .repeat(longest_widget_name_length - display_name.len())
                         .as_str()
             } else {
-                " ".repeat(longest_widget_name_length - widget.len()) + widget.as_str()
+                " ".repeat(longest_widget_name_length - display_name.len()) + display_name.as_str()
             },
             if config.widgets.get(i).is_some() {
                 config.separator.to_owned()
