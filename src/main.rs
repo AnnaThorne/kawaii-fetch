@@ -60,7 +60,7 @@ fn print_kawaii_info(config: Config) {
         .unwrap_or(0);
 
     let longest_widget_name_length = display_widgets.iter().map(|w| w.len()).max().unwrap_or(0);
-    let ascii_fill = " ".repeat(longest_ascii_line_length).to_owned();
+    let ascii_fill = " ".repeat(longest_ascii_line_length);
 
     for i in 0..cmp::max(KAWAII_ASCII.len(), display_widgets.len()) {
         let widget = display_widgets
@@ -81,7 +81,7 @@ fn print_kawaii_info(config: Config) {
                         .repeat(longest_widget_name_length - widget.len())
                         .as_str()
             } else {
-                " ".repeat(longest_widget_name_length - widget.len()) + widget.to_string().as_str()
+                " ".repeat(longest_widget_name_length - widget.len()) + widget.as_str()
             },
             if display_widgets.get(i).is_some() {
                 config.separator.to_owned()
